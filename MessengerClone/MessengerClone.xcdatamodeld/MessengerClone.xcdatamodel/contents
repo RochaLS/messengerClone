@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="false" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15702" systemVersion="19C57" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Friend" representedClassName="Friend" syncable="YES">
+        <attribute name="imageName" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="message" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Message" inverseName="friend" inverseEntity="Message"/>
+    </entity>
+    <entity name="Message" representedClassName="Message" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="text" optional="YES" attributeType="String"/>
+        <relationship name="friend" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Friend" inverseName="message" inverseEntity="Friend"/>
+    </entity>
+    <elements>
+        <element name="Friend" positionX="-63" positionY="-18" width="128" height="88"/>
+        <element name="Message" positionX="213.73828125" positionY="115.59375" width="128" height="88"/>
+    </elements>
 </model>
