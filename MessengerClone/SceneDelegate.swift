@@ -20,13 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
             
             let window = UIWindow(windowScene: windowScene)
-            let layout = UICollectionViewFlowLayout()
-            let friendsController = FriendsController(collectionViewLayout: layout)
-            
-            let navigation = UINavigationController(rootViewController: friendsController)
-            
-            
-            window.rootViewController = navigation
+            window.rootViewController = CustomTabBarController()
             
             self.window = window
             window.makeKeyAndVisible()
