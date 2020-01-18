@@ -3,12 +3,12 @@
     <entity name="Friend" representedClassName="Friend" syncable="YES">
         <attribute name="imageName" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
-        <relationship name="message" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Message" inverseName="friend" inverseEntity="Message"/>
+        <relationship name="messages" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Message" inverseName="friend" inverseEntity="Message"/>
     </entity>
     <entity name="Message" representedClassName="Message" syncable="YES">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="text" optional="YES" attributeType="String"/>
-        <relationship name="friend" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Friend" inverseName="message" inverseEntity="Friend"/>
+        <relationship name="friend" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Friend" inverseName="messages" inverseEntity="Friend"/>
     </entity>
     <elements>
         <element name="Friend" positionX="-63" positionY="-18" width="128" height="88"/>

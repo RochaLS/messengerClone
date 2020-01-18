@@ -54,6 +54,13 @@ class FriendsController: UICollectionViewController, UICollectionViewDelegateFlo
         return CGSize(width: view.frame.width, height: 100)
     }
     
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let layout = UICollectionViewFlowLayout()
+        let controller = ChatLogController(collectionViewLayout: layout)
+        controller.friend = messages?[indexPath.item].friend
+        navigationController?.pushViewController(controller, animated: true)
+    }
+    
     
 }
 
@@ -178,8 +185,24 @@ class MessageCell: BaseCell {
 }
 
 
+class BaseCell: UICollectionViewCell {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setupViews() {
+//       
+        
+    }
+}
+
 // Creating this extension to simplify when adding constrains with visual format
-extension MessageCell {
+extension BaseCell {
     func addContraintsWithFormat(format: String, views: UIView...) {
         
         var viewsDictionary = [String:UIView]()
@@ -194,19 +217,3 @@ extension MessageCell {
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: format, options: .init(), metrics: nil, views: viewsDictionary))
     }
 }
-
-class BaseCell: UICollectionViewCell {
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupViews()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func setupViews() {
-        backgroundColor = .blue
-    }
-}
-

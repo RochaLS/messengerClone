@@ -8,24 +8,21 @@
 
 /* Begin PBXBuildFile section */
 		163A0ED823CF03AA0043D9C6 /* FriendsControllerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163A0ED723CF03AA0043D9C6 /* FriendsControllerHelper.swift */; };
-		163A0EED23CF0A120043D9C6 /* Message+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163A0EE923CF0A120043D9C6 /* Message+CoreDataClass.swift */; };
-		163A0EEE23CF0A120043D9C6 /* Message+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163A0EEA23CF0A120043D9C6 /* Message+CoreDataProperties.swift */; };
-		163A0EEF23CF0A120043D9C6 /* Friend+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163A0EEB23CF0A120043D9C6 /* Friend+CoreDataClass.swift */; };
-		163A0EF023CF0A120043D9C6 /* Friend+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163A0EEC23CF0A120043D9C6 /* Friend+CoreDataProperties.swift */; };
 		169F84C123C95362003A224D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169F84C023C95362003A224D /* AppDelegate.swift */; };
 		169F84C323C95362003A224D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169F84C223C95362003A224D /* SceneDelegate.swift */; };
 		169F84C523C95362003A224D /* FriendsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169F84C423C95362003A224D /* FriendsController.swift */; };
 		169F84CB23C95362003A224D /* MessengerClone.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 169F84C923C95362003A224D /* MessengerClone.xcdatamodeld */; };
 		169F84CD23C95366003A224D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 169F84CC23C95366003A224D /* Assets.xcassets */; };
 		169F84D023C95366003A224D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 169F84CE23C95366003A224D /* LaunchScreen.storyboard */; };
+		16D6A1FA23D04B1D0022A4E8 /* Message+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D6A1F623D04B1D0022A4E8 /* Message+CoreDataClass.swift */; };
+		16D6A1FB23D04B1D0022A4E8 /* Message+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D6A1F723D04B1D0022A4E8 /* Message+CoreDataProperties.swift */; };
+		16D6A1FC23D04B1D0022A4E8 /* Friend+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D6A1F823D04B1D0022A4E8 /* Friend+CoreDataClass.swift */; };
+		16D6A1FD23D04B1D0022A4E8 /* Friend+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D6A1F923D04B1D0022A4E8 /* Friend+CoreDataProperties.swift */; };
+		16D6A1FF23D04BA00022A4E8 /* ChatLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D6A1FE23D04BA00022A4E8 /* ChatLogController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		163A0ED723CF03AA0043D9C6 /* FriendsControllerHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsControllerHelper.swift; sourceTree = "<group>"; };
-		163A0EE923CF0A120043D9C6 /* Message+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Message+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		163A0EEA23CF0A120043D9C6 /* Message+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Message+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
-		163A0EEB23CF0A120043D9C6 /* Friend+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Friend+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		163A0EEC23CF0A120043D9C6 /* Friend+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Friend+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		169F84BD23C95362003A224D /* MessengerClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MessengerClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		169F84C023C95362003A224D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		169F84C223C95362003A224D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -34,6 +31,11 @@
 		169F84CC23C95366003A224D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		169F84CF23C95366003A224D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		169F84D123C95366003A224D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		16D6A1F623D04B1D0022A4E8 /* Message+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Message+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		16D6A1F723D04B1D0022A4E8 /* Message+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Message+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		16D6A1F823D04B1D0022A4E8 /* Friend+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Friend+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		16D6A1F923D04B1D0022A4E8 /* Friend+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Friend+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		16D6A1FE23D04BA00022A4E8 /* ChatLogController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,13 +68,14 @@
 		169F84BF23C95362003A224D /* MessengerClone */ = {
 			isa = PBXGroup;
 			children = (
-				163A0EE923CF0A120043D9C6 /* Message+CoreDataClass.swift */,
-				163A0EEA23CF0A120043D9C6 /* Message+CoreDataProperties.swift */,
-				163A0EEB23CF0A120043D9C6 /* Friend+CoreDataClass.swift */,
-				163A0EEC23CF0A120043D9C6 /* Friend+CoreDataProperties.swift */,
+				16D6A1F623D04B1D0022A4E8 /* Message+CoreDataClass.swift */,
+				16D6A1F723D04B1D0022A4E8 /* Message+CoreDataProperties.swift */,
+				16D6A1F823D04B1D0022A4E8 /* Friend+CoreDataClass.swift */,
+				16D6A1F923D04B1D0022A4E8 /* Friend+CoreDataProperties.swift */,
 				169F84C023C95362003A224D /* AppDelegate.swift */,
 				169F84C223C95362003A224D /* SceneDelegate.swift */,
 				169F84C423C95362003A224D /* FriendsController.swift */,
+				16D6A1FE23D04BA00022A4E8 /* ChatLogController.swift */,
 				163A0ED723CF03AA0043D9C6 /* FriendsControllerHelper.swift */,
 				169F84CC23C95366003A224D /* Assets.xcassets */,
 				169F84CE23C95366003A224D /* LaunchScreen.storyboard */,
@@ -152,13 +155,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16D6A1FF23D04BA00022A4E8 /* ChatLogController.swift in Sources */,
 				169F84C523C95362003A224D /* FriendsController.swift in Sources */,
-				163A0EEF23CF0A120043D9C6 /* Friend+CoreDataClass.swift in Sources */,
-				163A0EF023CF0A120043D9C6 /* Friend+CoreDataProperties.swift in Sources */,
+				16D6A1FC23D04B1D0022A4E8 /* Friend+CoreDataClass.swift in Sources */,
+				16D6A1FD23D04B1D0022A4E8 /* Friend+CoreDataProperties.swift in Sources */,
 				169F84CB23C95362003A224D /* MessengerClone.xcdatamodeld in Sources */,
 				169F84C123C95362003A224D /* AppDelegate.swift in Sources */,
-				163A0EED23CF0A120043D9C6 /* Message+CoreDataClass.swift in Sources */,
-				163A0EEE23CF0A120043D9C6 /* Message+CoreDataProperties.swift in Sources */,
+				16D6A1FA23D04B1D0022A4E8 /* Message+CoreDataClass.swift in Sources */,
+				16D6A1FB23D04B1D0022A4E8 /* Message+CoreDataProperties.swift in Sources */,
 				169F84C323C95362003A224D /* SceneDelegate.swift in Sources */,
 				163A0ED823CF03AA0043D9C6 /* FriendsControllerHelper.swift in Sources */,
 			);

@@ -17,25 +17,25 @@ extension Friend {
         return NSFetchRequest<Friend>(entityName: "Friend")
     }
 
-    @NSManaged public var name: String?
     @NSManaged public var imageName: String?
-    @NSManaged public var message: NSSet?
+    @NSManaged public var name: String?
+    @NSManaged public var messages: NSSet?
 
 }
 
-// MARK: Generated accessors for message
+// MARK: Generated accessors for messages
 extension Friend {
 
-    @objc(addMessageObject:)
-    @NSManaged public func addToMessage(_ value: Message)
+    @objc(addMessagesObject:)
+    @NSManaged public func addToMessages(_ value: Message)
 
-    @objc(removeMessageObject:)
-    @NSManaged public func removeFromMessage(_ value: Message)
+    @objc(removeMessagesObject:)
+    @NSManaged public func removeFromMessages(_ value: Message)
 
-    @objc(addMessage:)
-    @NSManaged public func addToMessage(_ values: NSSet)
+    @objc(addMessages:)
+    @NSManaged public func addToMessages(_ values: NSSet)
 
-    @objc(removeMessage:)
-    @NSManaged public func removeFromMessage(_ values: NSSet)
+    @objc(removeMessages:)
+    @NSManaged public func removeFromMessages(_ values: NSSet)
 
 }

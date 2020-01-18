@@ -17,8 +17,8 @@ extension Message {
         return NSFetchRequest<Message>(entityName: "Message")
     }
 
-    @NSManaged public var text: String?
     @NSManaged public var date: Date?
+    @NSManaged public var text: String?
     @NSManaged public var friend: Friend?
 
 }
