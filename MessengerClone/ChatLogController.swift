@@ -44,13 +44,42 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         
         cell.messageTextView.text = messages?[indexPath.item].text
         
+        if let messageText = messages?[indexPath.item].text, let profileImageName = messages?[indexPath.item].friend?.imageName {
+            let size = CGSize(width: 250, height: 1000)
+            let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+            
+            //Calculate the size of the message bubble based on the text
+            let estimatedFrame = NSString(string: messageText).boundingRect(with: size, options: options, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)], context: nil)
+            
+            cell.profileImageView.image = UIImage(named: profileImageName)
+            
+            cell.messageTextView.frame = CGRect(x: 48 + 8, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 15)
+            
+            cell.textBubbleView.frame = CGRect(x: 48, y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 15)
+        }
+        
         return cell
         
         
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        if let messageText = messages?[indexPath.item].text {
+            let size = CGSize(width: 250, height: 1000)
+            let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+            
+            //Calculate the size of the message bubble based on the text
+            let estimatedFrame = NSString(string: messageText).boundingRect(with: size, options: options, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)], context: nil)
+            
+            return CGSize(width: view.frame.width, height: estimatedFrame.height + 20)
+        }
+        
         return CGSize(width: view.frame.width, height: 100)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 0) // Giving distance from the top
     }
     
     
@@ -62,18 +91,37 @@ class ChatLogMessageCell: BaseCell {
         let textView = UITextView()
         textView.text = "Sample Message"
         textView.font = UIFont.systemFont(ofSize: 16)
+        textView.backgroundColor = UIColor.clear
         
         return textView
+    }()
+    
+    let textBubbleView: UIView = {
+        let bubbleView = UIView()
+        bubbleView.backgroundColor = UIColor.init(white: 0.95, alpha: 1)
+        bubbleView.layer.cornerRadius = 15
+        bubbleView.layer.masksToBounds = true
+        return bubbleView
+    }()
+    
+    let profileImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 15
+        imageView.layer.masksToBounds = true
+        return imageView
     }()
     
     override func setupViews() {
         super.setupViews()
         
+        addSubview(textBubbleView)
         addSubview(messageTextView)
+        addSubview(profileImageView)
         
-        addContraintsWithFormat(format: "H:|[v0]|", views: messageTextView)
-         addContraintsWithFormat(format: "V:|[v0]|", views: messageTextView)
-
+        addContraintsWithFormat(format: "H:|-8-[v0(30)]", views: profileImageView)
+        addContraintsWithFormat(format: "V:[v0(30)]|", views: profileImageView)
+        
     }
     
 }

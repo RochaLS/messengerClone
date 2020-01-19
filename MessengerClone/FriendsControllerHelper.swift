@@ -79,6 +79,20 @@ extension FriendsController {
             barry.name = "Barry Allen"
             barry.imageName = "barry"
             
+            let tony = NSEntityDescription.insertNewObject(forEntityName: "Friend", into: context) as! Friend
+            tony.name = "Tony Stark"
+            tony.imageName = "tony"
+            
+            let steve = NSEntityDescription.insertNewObject(forEntityName: "Friend", into: context) as! Friend
+            steve.name = "Steve Rogers"
+            steve.imageName = "steve"
+            
+            
+            createMessageWithText(text: "Lorem ipsum dolor sit amet.", friend: steve, minutesAgo: 8 * 60 * 24, context: context)
+            createMessageWithText(text: "Hello, I hope you are very well! Do you want to hangout?", friend: steve, minutesAgo: 8 * 60 * 24, context: context)
+            createMessageWithText(text: "We are gonna go Ice Skating somewhere in downtown, let me know if you wanna go! We are waiting for you.", friend: steve, minutesAgo: 8 * 60 * 24, context: context)
+            createMessageWithText(text: "I'm Iron Man", friend: tony, minutesAgo: 24 * 60, context: context)
+            
             createMessageWithText(text: "My name is Barry Allen and I'm the...", friend: barry, minutesAgo: 5, context: context)
             createMessageWithText(text: "Hey, how are you?", friend: chloe, minutesAgo: 3, context: context)
             createMessageWithText(text: "I'm Chloe!", friend: chloe, minutesAgo: 2, context: context)

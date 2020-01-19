@@ -77,13 +77,13 @@
 				169F84C023C95362003A224D /* AppDelegate.swift */,
 				169F84C223C95362003A224D /* SceneDelegate.swift */,
 				169F84C423C95362003A224D /* FriendsController.swift */,
-				16D6A1FE23D04BA00022A4E8 /* ChatLogController.swift */,
 				163A0ED723CF03AA0043D9C6 /* FriendsControllerHelper.swift */,
+				16D6A1FE23D04BA00022A4E8 /* ChatLogController.swift */,
+				16D6A20023D2C1EE0022A4E8 /* CustomTabBarController.swift */,
 				169F84CC23C95366003A224D /* Assets.xcassets */,
 				169F84CE23C95366003A224D /* LaunchScreen.storyboard */,
 				169F84D123C95366003A224D /* Info.plist */,
 				169F84C923C95362003A224D /* MessengerClone.xcdatamodeld */,
-				16D6A20023D2C1EE0022A4E8 /* CustomTabBarController.swift */,
 			);
 			path = MessengerClone;
 			sourceTree = "<group>";
