@@ -17,6 +17,12 @@ class FriendsController: UICollectionViewController, UICollectionViewDelegateFlo
     
     var messages: [Message]?
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        tabBarController?.tabBar.isHidden = false
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -222,7 +228,7 @@ class BaseCell: UICollectionViewCell {
 }
 
 // Creating this extension to simplify when adding constrains with visual format
-extension BaseCell {
+extension UIView {
     func addContraintsWithFormat(format: String, views: UIView...) {
         
         var viewsDictionary = [String:UIView]()
@@ -234,6 +240,10 @@ extension BaseCell {
         }
         
         // Better to write code below just once ;)
+        
+        
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: format, options: .init(), metrics: nil, views: viewsDictionary))
+        
+        
     }
 }

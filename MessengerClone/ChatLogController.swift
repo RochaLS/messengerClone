@@ -12,6 +12,10 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     
     private let cell_id = "cell_id"
     
+    var bottomConstraint: NSLayoutConstraint?
+    
+    var inputContainerHeightContrainst: NSLayoutConstraint?
+    
     var messages: [Message]?
     
     var friend: Friend? {
@@ -22,13 +26,132 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         }
     }
     
+    let containerInputView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.white
+        return view
+    }()
+    
+    let inputTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "Enter message"
+        return textField
+    }()
+    
+    let sendButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Send", for: .normal)
+        let titleColor = UIColor(red: 0, green: 137/255, blue: 249/255, alpha: 1)
+        button.setTitleColor(titleColor, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        return button
+    }()
+    
+    let topLineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.lightGray
+        return view
+    }()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.backgroundColor = .white
+        collectionView.alwaysBounceVertical = true
         collectionView.register(ChatLogMessageCell.self, forCellWithReuseIdentifier: cell_id)
+        
+        
+        tabBarController?.tabBar.isHidden = true
+        
+        view.addSubview(containerInputView)
+        view.addContraintsWithFormat(format: "H:|[v0]|", views: containerInputView)
+        
+//        if  UIDevice.current.hasNotch {
+//            view.addContraintsWithFormat(format: "V:[v0(\(48 + 34))]", views: containerInputView)
+//        } else {
+//            view.addContraintsWithFormat(format: "V:[v0(48)]", views: containerInputView)
+//
+//
+//        }
+        
+        
+        bottomConstraint = NSLayoutConstraint(item: containerInputView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
+        
+        // Height of the inputContainer will change depending if the device has notch or not
+        if UIDevice.current.hasNotch {
+             inputContainerHeightContrainst = NSLayoutConstraint(item: containerInputView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 48 + 34)
+        } else {
+            inputContainerHeightContrainst = NSLayoutConstraint(item: containerInputView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 48)
+        }
+        
+         
+        view.addConstraint(inputContainerHeightContrainst!)
+        
+        view.addConstraint(bottomConstraint!)
+        
+        
+        setupInputComponents()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        self.collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 48 + 17, right: 0) // Using this to prevent text field of overlapping last message of the collection view 48 is the height of the whole text field container, and plus 17 for a little bit of more spacing.
+        
+        
     }
+    
+    private func setupInputComponents() {
+        containerInputView.addSubview(inputTextField)
+        containerInputView.addSubview(sendButton)
+        containerInputView.addSubview(topLineView)
+        containerInputView.addContraintsWithFormat(format: "H:|-8-[v0][v1(60)]|", views: inputTextField, sendButton)
+        containerInputView.addContraintsWithFormat(format: "V:|[v0]|", views: inputTextField)
+        containerInputView.addContraintsWithFormat(format: "V:|[v0]|", views: sendButton)
+        containerInputView.addContraintsWithFormat(format: "H:|[v0]|", views: topLineView)
+        containerInputView.addContraintsWithFormat(format: "V:|[v0(0.5)]", views: topLineView)
+        
+    }
+    
+    @objc func handleKeyboardNotification(notification: NSNotification) {
+        if let userInfo = notification.userInfo {
+            let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
+            let keyboardHeight = keyboardFrame?.cgRectValue.height
+            
+            //keyboardFrame?.cgRectValue.height = keyboardFrame?.cgRectValue.height+100
+            
+            let isKeyboardShowing = notification.name == UIResponder.keyboardWillShowNotification
+            
+            
+            bottomConstraint?.constant = isKeyboardShowing ? -keyboardHeight! : 0
+            
+            if UIDevice.current.hasNotch {
+                 inputContainerHeightContrainst?.constant = isKeyboardShowing ? 48 : 48 + 34
+            } else {
+                inputContainerHeightContrainst?.constant = 48
+            }
+           
+            
+            UIView.animate(withDuration: 0, delay: 0, options: UIView.AnimationOptions.curveEaseOut, animations: {
+                
+                self.view.layoutIfNeeded()
+                
+            }) { (completed) in
+                
+                if isKeyboardShowing {
+                    let indexPath = NSIndexPath(row: self.messages!.count - 1, section: 0)
+                    self.collectionView.scrollToItem(at: indexPath as IndexPath, at: .bottom, animated: true)
+                }
+            }
+            
+        }
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        inputTextField.endEditing(true)
+    }
+    
+    
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let count = messages?.count {
@@ -66,7 +189,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
                 cell.profileImageView.isHidden = false
             } else {
                 cell.messageTextView.frame = CGRect(x: view.frame.width - estimatedFrame.width - 16 - 16, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 15)
-
+                
                 
                 cell.textBubbleView.frame = CGRect(x: view.frame.width - estimatedFrame.width - 16 - 8 - 16, y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 15)
                 
@@ -135,6 +258,7 @@ class ChatLogMessageCell: BaseCell {
         return imageView
     }()
     
+    
     override func setupViews() {
         super.setupViews()
         
@@ -147,4 +271,11 @@ class ChatLogMessageCell: BaseCell {
         
     }
     
+}
+
+extension UIDevice {
+    var hasNotch: Bool {
+        let bottom = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
+        return bottom > 0
+    }
 }

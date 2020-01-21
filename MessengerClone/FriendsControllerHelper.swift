@@ -115,8 +115,13 @@ extension FriendsController {
         createMessageWithText(text: "Hello, I hope you are very well! Do you want to hangout?", friend: steve, minutesAgo: 8 * 60 * 24, context: context)
         createMessageWithText(text: "We are gonna go Ice Skating somewhere in downtown, let me know if you wanna go! We are waiting for you.", friend: steve, minutesAgo: 8 * 60 * 24, context: context)
         createMessageWithText(text: "Yes sure! What time?", friend: steve, minutesAgo: 2, context: context, isSender: true)
-        createMessageWithText(text: "At 8:00pm", friend: steve, minutesAgo: 1, context: context)
-        createMessageWithText(text: "Okay I'm going!", friend: steve, minutesAgo: 0, context: context, isSender: true)
+        createMessageWithText(text: "At 8:00pm", friend: steve, minutesAgo: 5, context: context)
+        createMessageWithText(text: "Okay I'm going!", friend: steve, minutesAgo: 3, context: context, isSender: true)
+        createMessageWithText(text: "Can you send me the address? I will be leaving my house at 7:00! I will meet you at the Avengers tower!", friend: steve, minutesAgo: 2, context: context, isSender: true)
+        
+        createMessageWithText(text: "Leaving now!", friend: steve, minutesAgo: 0, context: context, isSender: true)
+        
+        createMessageWithText(text: "Okay!", friend: steve, minutesAgo: 0, context: context)
     }
     
     
