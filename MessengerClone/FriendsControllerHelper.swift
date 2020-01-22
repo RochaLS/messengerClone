@@ -86,12 +86,11 @@ extension FriendsController {
             createSteveMessagesWithContext(context: context)
             
             
-            createMessageWithText(text: "I'm Iron Man", friend: tony, minutesAgo: 24 * 60, context: context)
-            
-            createMessageWithText(text: "My name is Barry Allen and I'm the...", friend: barry, minutesAgo: 5, context: context)
-            createMessageWithText(text: "Hey, how are you?", friend: chloe, minutesAgo: 3, context: context)
-            createMessageWithText(text: "I'm Chloe!", friend: chloe, minutesAgo: 2, context: context)
-            createMessageWithText(text: "Kicking ass!", friend: chloe, minutesAgo: 1, context: context)
+            FriendsController.createMessageWithText(text: "I'm Iron Man", friend: tony, minutesAgo: 24 * 60, context: context)
+            FriendsController.createMessageWithText(text: "My name is Barry Allen and I'm the...", friend: barry, minutesAgo: 5, context: context)
+            FriendsController.createMessageWithText(text: "Hey, how are you?", friend: chloe, minutesAgo: 3, context: context)
+            FriendsController.createMessageWithText(text: "I'm Chloe!", friend: chloe, minutesAgo: 2, context: context)
+            FriendsController.createMessageWithText(text: "Kicking ass!", friend: chloe, minutesAgo: 1, context: context)
             
             
             
@@ -111,26 +110,28 @@ extension FriendsController {
         let steve = NSEntityDescription.insertNewObject(forEntityName: "Friend", into: context) as! Friend
                    steve.name = "Steve Rogers"
                    steve.imageName = "steve"
-        createMessageWithText(text: "Lorem ipsum dolor sit amet.", friend: steve, minutesAgo: 8 * 60 * 24, context: context)
-        createMessageWithText(text: "Hello, I hope you are very well! Do you want to hangout?", friend: steve, minutesAgo: 8 * 60 * 24, context: context)
-        createMessageWithText(text: "We are gonna go Ice Skating somewhere in downtown, let me know if you wanna go! We are waiting for you.", friend: steve, minutesAgo: 8 * 60 * 24, context: context)
-        createMessageWithText(text: "Yes sure! What time?", friend: steve, minutesAgo: 2, context: context, isSender: true)
-        createMessageWithText(text: "At 8:00pm", friend: steve, minutesAgo: 5, context: context)
-        createMessageWithText(text: "Okay I'm going!", friend: steve, minutesAgo: 3, context: context, isSender: true)
-        createMessageWithText(text: "Can you send me the address? I will be leaving my house at 7:00! I will meet you at the Avengers tower!", friend: steve, minutesAgo: 2, context: context, isSender: true)
+        FriendsController.createMessageWithText(text: "Lorem ipsum dolor sit amet.", friend: steve, minutesAgo: 8 * 60 * 24, context: context)
+        FriendsController.createMessageWithText(text: "Hello, I hope you are very well! Do you want to hangout?", friend: steve, minutesAgo: 8 * 60 * 24, context: context)
+        FriendsController.createMessageWithText(text: "We are gonna go Ice Skating somewhere in downtown, let me know if you wanna go! We are waiting for you.", friend: steve, minutesAgo: 8 * 60 * 24, context: context)
+        FriendsController.createMessageWithText(text: "Yes sure! What time?", friend: steve, minutesAgo: 2, context: context, isSender: true)
+        FriendsController.createMessageWithText(text: "At 8:00pm", friend: steve, minutesAgo: 5, context: context)
+        FriendsController.createMessageWithText(text: "Okay I'm going!", friend: steve, minutesAgo: 3, context: context, isSender: true)
+        FriendsController.createMessageWithText(text: "Can you send me the address? I will be leaving my house at 7:00! I will meet you at the Avengers tower!", friend: steve, minutesAgo: 2, context: context, isSender: true)
         
-        createMessageWithText(text: "Leaving now!", friend: steve, minutesAgo: 0, context: context, isSender: true)
+        FriendsController.createMessageWithText(text: "Leaving now!", friend: steve, minutesAgo: 0, context: context, isSender: true)
         
-        createMessageWithText(text: "Okay!", friend: steve, minutesAgo: 0, context: context)
+        FriendsController.createMessageWithText(text: "Okay!", friend: steve, minutesAgo: 0, context: context)
     }
     
-    
-    private func createMessageWithText(text: String, friend: Friend, minutesAgo: Double, context: NSManagedObjectContext, isSender: Bool = false) {
+    @discardableResult
+    static func createMessageWithText(text: String, friend: Friend, minutesAgo: Double, context: NSManagedObjectContext, isSender: Bool = false) -> Message {
         let message = NSEntityDescription.insertNewObject(forEntityName: "Message", into: context) as! Message
         message.text = text
         message.friend = friend
         message.date = Date().addingTimeInterval(-minutesAgo * 60)
         message.isSender = isSender // isSender is the person who is "answering" the message
+        
+        return message
     }
     
     func loadData() {

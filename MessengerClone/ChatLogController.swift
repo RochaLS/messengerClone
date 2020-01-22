@@ -38,14 +38,43 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         return textField
     }()
     
-    let sendButton: UIButton = {
+   lazy var sendButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Send", for: .normal)
         let titleColor = UIColor(red: 0, green: 137/255, blue: 249/255, alpha: 1)
         button.setTitleColor(titleColor, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        button.addTarget(self, action: #selector(handleSendButton), for: .touchUpInside)
         return button
     }()
+    
+    @objc func handleSendButton() {
+        
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let context = delegate.persistentContainer.viewContext
+        
+        let message = FriendsController.createMessageWithText(text: inputTextField.text!, friend: friend!, minutesAgo: 1, context: context, isSender: true)
+        
+        do {
+            try context.save()
+            
+            messages?.append(message)
+            
+            let indexPath = NSIndexPath(item: messages!.count - 1, section: 0)
+            
+            
+            collectionView.insertItems(at: [(indexPath as IndexPath)])
+            collectionView.scrollToItem(at: indexPath as IndexPath, at: .bottom, animated: true)
+            inputTextField.text = nil
+        } catch let error {
+            print(error)
+        }
+        
+        
+        
+        
+    }
     
     let topLineView: UIView = {
         let view = UIView()
@@ -53,9 +82,42 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         return view
     }()
     
+    @objc func simulateReceiveMessage() {
+        
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+               
+        let context = delegate.persistentContainer.viewContext
+        
+        let message = FriendsController.createMessageWithText(text: "Let's goooo!", friend: friend!, minutesAgo: 0, context: context , isSender: false)
+        
+        do {
+            try context.save()
+            
+            messages?.append(message)
+            
+            messages?.sort(by: {$0.date!.compare($1.date!) == .orderedAscending})
+            
+            if let item = messages?.firstIndex(of: message) {
+                let indexPath = NSIndexPath(item: item, section: 0)
+                collectionView.insertItems(at: [(indexPath as IndexPath)])
+                collectionView.scrollToItem(at: indexPath as IndexPath, at: .bottom, animated: true)
+            }
+            
+           
+//
+            
+        } catch let error {
+            print(error)
+        }
+        
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Simulate msg", style: .plain, target: self, action: #selector(simulateReceiveMessage))
+        
         collectionView.backgroundColor = .white
         collectionView.alwaysBounceVertical = true
         collectionView.register(ChatLogMessageCell.self, forCellWithReuseIdentifier: cell_id)
@@ -65,15 +127,6 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         
         view.addSubview(containerInputView)
         view.addContraintsWithFormat(format: "H:|[v0]|", views: containerInputView)
-        
-//        if  UIDevice.current.hasNotch {
-//            view.addContraintsWithFormat(format: "V:[v0(\(48 + 34))]", views: containerInputView)
-//        } else {
-//            view.addContraintsWithFormat(format: "V:[v0(48)]", views: containerInputView)
-//
-//
-//        }
-        
         
         bottomConstraint = NSLayoutConstraint(item: containerInputView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
         
