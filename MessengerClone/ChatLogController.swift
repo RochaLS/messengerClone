@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
@@ -112,9 +113,30 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         
     }
     
+    lazy var fetchResultsController: NSFetchedResultsController<Message> = {
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        let context = delegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<Message>(entityName: "Message")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: true)]
+        fetchRequest.predicate = NSPredicate(format: "friend.name = %@", self.friend!.name!)
+        
+        
+        let frc = NSFetchedResultsController<Message>(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        return frc
+    }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        do {
+            try fetchResultsController.performFetch()
+            print(fetchResultsController.sections?.count)
+        } catch let error {
+            print(error)
+        }
+        
+        
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Simulate msg", style: .plain, target: self, action: #selector(simulateReceiveMessage))
         
@@ -150,9 +172,9 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         self.collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 48 + 17, right: 0) // Using this to prevent text field of overlapping last message of the collection view 48 is the height of the whole text field container, and plus 17 for a little bit of more spacing.
-        
-        
     }
+    
+
     
     private func setupInputComponents() {
         containerInputView.addSubview(inputTextField)
