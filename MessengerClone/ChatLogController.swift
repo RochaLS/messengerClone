@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import Foundation
 import CoreData
 
-class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlowLayout, NSFetchedResultsControllerDelegate {
     
     private let cell_id = "cell_id"
     
@@ -17,13 +18,11 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     
     var inputContainerHeightContrainst: NSLayoutConstraint?
     
-    var messages: [Message]?
+    //    var messages: [Message]?
     
     var friend: Friend? {
         didSet {
             navigationItem.title = friend?.name
-            messages = friend?.messages?.allObjects as? [Message]
-            messages?.sort(by: {$0.date!.compare($1.date!) == .orderedAscending})
         }
     }
     
@@ -39,7 +38,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         return textField
     }()
     
-   lazy var sendButton: UIButton = {
+    lazy var sendButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Send", for: .normal)
         let titleColor = UIColor(red: 0, green: 137/255, blue: 249/255, alpha: 1)
@@ -55,25 +54,14 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         
         let context = delegate.persistentContainer.viewContext
         
-        let message = FriendsController.createMessageWithText(text: inputTextField.text!, friend: friend!, minutesAgo: 1, context: context, isSender: true)
+        FriendsController.createMessageWithText(text: inputTextField.text!, friend: friend!, minutesAgo: 0, context: context, isSender: true)
         
         do {
             try context.save()
-            
-            messages?.append(message)
-            
-            let indexPath = NSIndexPath(item: messages!.count - 1, section: 0)
-            
-            
-            collectionView.insertItems(at: [(indexPath as IndexPath)])
-            collectionView.scrollToItem(at: indexPath as IndexPath, at: .bottom, animated: true)
             inputTextField.text = nil
         } catch let error {
             print(error)
         }
-        
-        
-        
         
     }
     
@@ -86,26 +74,14 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     @objc func simulateReceiveMessage() {
         
         let delegate = UIApplication.shared.delegate as! AppDelegate
-               
+        
         let context = delegate.persistentContainer.viewContext
         
-        let message = FriendsController.createMessageWithText(text: "Let's goooo!", friend: friend!, minutesAgo: 0, context: context , isSender: false)
+        FriendsController.createMessageWithText(text: "Let's goooo!", friend: friend!, minutesAgo: 0, context: context , isSender: false)
+        FriendsController.createMessageWithText(text: "Let's goooo!", friend: friend!, minutesAgo: 0, context: context , isSender: false)
         
         do {
             try context.save()
-            
-            messages?.append(message)
-            
-            messages?.sort(by: {$0.date!.compare($1.date!) == .orderedAscending})
-            
-            if let item = messages?.firstIndex(of: message) {
-                let indexPath = NSIndexPath(item: item, section: 0)
-                collectionView.insertItems(at: [(indexPath as IndexPath)])
-                collectionView.scrollToItem(at: indexPath as IndexPath, at: .bottom, animated: true)
-            }
-            
-           
-//
             
         } catch let error {
             print(error)
@@ -122,16 +98,41 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         
         
         let frc = NSFetchedResultsController<Message>(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        frc.delegate = self
         return frc
     }()
     
+    var blockOperations = [BlockOperation]()
+    
+    // Inserting messages at the collectionView
+    // This function is called when the fetched object(the message) has been changed due to an add, remove, move, or update.
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        if type == .insert {
+            blockOperations.append(BlockOperation(block: {
+                self.collectionView.insertItems(at: [newIndexPath!])
+                print(self.blockOperations.count)
+            }))
+        }
+        
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        collectionView.performBatchUpdates({
+            for operation in self.blockOperations {
+                operation.start()
+            }
+        }) { (completed) in
+            
+            let indexPath = NSIndexPath(item: self.fetchResultsController.sections![0].numberOfObjects - 1, section: 0)
+            self.collectionView.scrollToItem(at: indexPath as IndexPath , at: .bottom, animated: true)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         do {
             try fetchResultsController.performFetch()
-            print(fetchResultsController.sections?.count)
         } catch let error {
             print(error)
         }
@@ -154,12 +155,12 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         
         // Height of the inputContainer will change depending if the device has notch or not
         if UIDevice.current.hasNotch {
-             inputContainerHeightContrainst = NSLayoutConstraint(item: containerInputView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 48 + 34)
+            inputContainerHeightContrainst = NSLayoutConstraint(item: containerInputView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 48 + 34)
         } else {
             inputContainerHeightContrainst = NSLayoutConstraint(item: containerInputView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 48)
         }
         
-         
+        
         view.addConstraint(inputContainerHeightContrainst!)
         
         view.addConstraint(bottomConstraint!)
@@ -174,7 +175,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         self.collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 48 + 17, right: 0) // Using this to prevent text field of overlapping last message of the collection view 48 is the height of the whole text field container, and plus 17 for a little bit of more spacing.
     }
     
-
+    
     
     private func setupInputComponents() {
         containerInputView.addSubview(inputTextField)
@@ -201,11 +202,11 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
             bottomConstraint?.constant = isKeyboardShowing ? -keyboardHeight! : 0
             
             if UIDevice.current.hasNotch {
-                 inputContainerHeightContrainst?.constant = isKeyboardShowing ? 48 : 48 + 34
+                inputContainerHeightContrainst?.constant = isKeyboardShowing ? 48 : 48 + 34
             } else {
                 inputContainerHeightContrainst?.constant = 48
             }
-           
+            
             
             UIView.animate(withDuration: 0, delay: 0, options: UIView.AnimationOptions.curveEaseOut, animations: {
                 
@@ -214,8 +215,8 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
             }) { (completed) in
                 
                 if isKeyboardShowing {
-                    let indexPath = NSIndexPath(row: self.messages!.count - 1, section: 0)
-                    self.collectionView.scrollToItem(at: indexPath as IndexPath, at: .bottom, animated: true)
+                    let indexPath = NSIndexPath(item: self.fetchResultsController.sections![0].numberOfObjects - 1, section: 0)
+                    self.collectionView.scrollToItem(at: indexPath as IndexPath , at: .bottom, animated: true)
                 }
             }
             
@@ -229,8 +230,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let count = messages?.count {
-            print(count)
+        if let count = fetchResultsController.sections?[0].numberOfObjects {
             return count
         }
         return 0
@@ -240,9 +240,11 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cell_id, for: indexPath) as! ChatLogMessageCell
         
-        cell.messageTextView.text = messages?[indexPath.item].text
+        let message = fetchResultsController.object(at: indexPath)
         
-        if let message = messages?[indexPath.item], let messageText = message.text, let profileImageName = messages?[indexPath.item].friend?.imageName {
+        cell.messageTextView.text = message.text
+        
+        if let messageText = message.text, let profileImageName = message.friend?.imageName {
             
             cell.profileImageView.image = UIImage(named: profileImageName)
             
@@ -286,7 +288,9 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        if let messageText = messages?[indexPath.item].text {
+        let message = fetchResultsController.object(at: indexPath)
+        
+        if let messageText = message.text {
             let size = CGSize(width: 250, height: 1000)
             let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
             
