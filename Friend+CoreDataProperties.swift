@@ -2,7 +2,7 @@
 //  Friend+CoreDataProperties.swift
 //  MessengerClone
 //
-//  Created by Lucas Rocha on 2020-01-15.
+//  Created by Lucas Rocha on 2020-01-22.
 //  Copyright © 2020 Lucas Rocha. All rights reserved.
 //
 //
@@ -20,6 +20,7 @@ extension Friend {
     @NSManaged public var imageName: String?
     @NSManaged public var name: String?
     @NSManaged public var messages: NSSet?
+    @NSManaged public var lastMessage: Message?
 
 }
 

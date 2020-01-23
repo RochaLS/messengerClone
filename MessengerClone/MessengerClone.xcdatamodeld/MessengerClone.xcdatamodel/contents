@@ -3,6 +3,7 @@
     <entity name="Friend" representedClassName="Friend" syncable="YES">
         <attribute name="imageName" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="lastMessage" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Message"/>
         <relationship name="messages" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Message" inverseName="friend" inverseEntity="Message"/>
     </entity>
     <entity name="Message" representedClassName="Message" syncable="YES">
@@ -12,7 +13,7 @@
         <relationship name="friend" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Friend" inverseName="messages" inverseEntity="Friend"/>
     </entity>
     <elements>
-        <element name="Friend" positionX="-63" positionY="-18" width="128" height="88"/>
+        <element name="Friend" positionX="-63" positionY="-18" width="128" height="103"/>
         <element name="Message" positionX="213.73828125" positionY="115.59375" width="128" height="103"/>
     </elements>
 </model>
