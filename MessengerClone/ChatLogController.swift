@@ -48,6 +48,14 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         return button
     }()
     
+    let topLineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.lightGray
+        return view
+    }()
+    
+    //MARK: - Creating Messages
+    
     @objc func handleSendButton() {
         
         let delegate = UIApplication.shared.delegate as! AppDelegate
@@ -65,11 +73,6 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         
     }
     
-    let topLineView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.lightGray
-        return view
-    }()
     
     @objc func simulateReceiveMessage() {
         
@@ -89,7 +92,10 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         
     }
     
-    lazy var fetchResultsController: NSFetchedResultsController<Message> = {
+    //MARK: - Managing and Listening to Object changes
+    
+    //To get message object
+    lazy var fetchedResultsController: NSFetchedResultsController<Message> = {
         let delegate = UIApplication.shared.delegate as! AppDelegate
         let context = delegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<Message>(entityName: "Message")
@@ -123,21 +129,20 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
             }
         }) { (completed) in
             
-            let indexPath = NSIndexPath(item: self.fetchResultsController.sections![0].numberOfObjects - 1, section: 0)
+            let indexPath = NSIndexPath(item: self.fetchedResultsController.sections![0].numberOfObjects - 1, section: 0)
             self.collectionView.scrollToItem(at: indexPath as IndexPath , at: .bottom, animated: true)
         }
     }
     
+    //MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         
         do {
-            try fetchResultsController.performFetch()
+            try fetchedResultsController.performFetch()
         } catch let error {
             print(error)
         }
-        
-        
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Simulate msg", style: .plain, target: self, action: #selector(simulateReceiveMessage))
         
@@ -175,7 +180,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         self.collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 48 + 17, right: 0) // Using this to prevent text field of overlapping last message of the collection view 48 is the height of the whole text field container, and plus 17 for a little bit of more spacing.
     }
     
-    
+    //MARK: - Input field
     
     private func setupInputComponents() {
         containerInputView.addSubview(inputTextField)
@@ -188,6 +193,8 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         containerInputView.addContraintsWithFormat(format: "V:|[v0(0.5)]", views: topLineView)
         
     }
+    
+    //MARK: - Keyboard
     
     @objc func handleKeyboardNotification(notification: NSNotification) {
         if let userInfo = notification.userInfo {
@@ -215,13 +222,15 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
             }) { (completed) in
                 
                 if isKeyboardShowing {
-                    let indexPath = NSIndexPath(item: self.fetchResultsController.sections![0].numberOfObjects - 1, section: 0)
+                    let indexPath = NSIndexPath(item: self.fetchedResultsController.sections![0].numberOfObjects - 1, section: 0)
                     self.collectionView.scrollToItem(at: indexPath as IndexPath , at: .bottom, animated: true)
                 }
             }
             
         }
     }
+    
+    //MARK: - Collection View Delegate Methods
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         inputTextField.endEditing(true)
@@ -230,7 +239,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let count = fetchResultsController.sections?[0].numberOfObjects {
+        if let count = fetchedResultsController.sections?[0].numberOfObjects {
             return count
         }
         return 0
@@ -240,7 +249,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cell_id, for: indexPath) as! ChatLogMessageCell
         
-        let message = fetchResultsController.object(at: indexPath)
+        let message = fetchedResultsController.object(at: indexPath)
         
         cell.messageTextView.text = message.text
         
@@ -282,13 +291,11 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         }
         
         return cell
-        
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let message = fetchResultsController.object(at: indexPath)
+        let message = fetchedResultsController.object(at: indexPath)
         
         if let messageText = message.text {
             let size = CGSize(width: 250, height: 1000)
@@ -309,6 +316,8 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     
     
 }
+
+//MARK: - ChatLogMessageCell
 
 class ChatLogMessageCell: BaseCell {
     
@@ -351,6 +360,8 @@ class ChatLogMessageCell: BaseCell {
     }
     
 }
+
+// MARK: - UIDevice extension
 
 extension UIDevice {
     var hasNotch: Bool {
