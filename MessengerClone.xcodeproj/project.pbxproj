@@ -20,6 +20,9 @@
 		16D6A1FD23D04B1D0022A4E8 /* Friend+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D6A1F923D04B1D0022A4E8 /* Friend+CoreDataProperties.swift */; };
 		16D6A1FF23D04BA00022A4E8 /* ChatLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D6A1FE23D04BA00022A4E8 /* ChatLogController.swift */; };
 		16D6A20123D2C1EE0022A4E8 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D6A20023D2C1EE0022A4E8 /* CustomTabBarController.swift */; };
+		16EE0F5923D963370036365A /* BaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EE0F5823D963370036365A /* BaseCell.swift */; };
+		16EE0F5B23D963C10036365A /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EE0F5A23D963C10036365A /* MessageCell.swift */; };
+		16EE0F5D23D9643C0036365A /* ChatLogMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EE0F5C23D9643C0036365A /* ChatLogMessageCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +41,9 @@
 		16D6A1F923D04B1D0022A4E8 /* Friend+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Friend+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		16D6A1FE23D04BA00022A4E8 /* ChatLogController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogController.swift; sourceTree = "<group>"; };
 		16D6A20023D2C1EE0022A4E8 /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
+		16EE0F5823D963370036365A /* BaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCell.swift; sourceTree = "<group>"; };
+		16EE0F5A23D963C10036365A /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
+		16EE0F5C23D9643C0036365A /* ChatLogMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogMessageCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +86,9 @@
 				163A0ED723CF03AA0043D9C6 /* FriendsControllerHelper.swift */,
 				16D6A1FE23D04BA00022A4E8 /* ChatLogController.swift */,
 				16D6A20023D2C1EE0022A4E8 /* CustomTabBarController.swift */,
+				16EE0F5C23D9643C0036365A /* ChatLogMessageCell.swift */,
+				16EE0F5A23D963C10036365A /* MessageCell.swift */,
+				16EE0F5823D963370036365A /* BaseCell.swift */,
 				169F84CC23C95366003A224D /* Assets.xcassets */,
 				169F84CE23C95366003A224D /* LaunchScreen.storyboard */,
 				169F84D123C95366003A224D /* Info.plist */,
@@ -160,8 +169,11 @@
 			files = (
 				16D6A1FF23D04BA00022A4E8 /* ChatLogController.swift in Sources */,
 				169F84C523C95362003A224D /* FriendsController.swift in Sources */,
+				16EE0F5D23D9643C0036365A /* ChatLogMessageCell.swift in Sources */,
 				16D6A1FC23D04B1D0022A4E8 /* Friend+CoreDataClass.swift in Sources */,
 				16D6A1FD23D04B1D0022A4E8 /* Friend+CoreDataProperties.swift in Sources */,
+				16EE0F5B23D963C10036365A /* MessageCell.swift in Sources */,
+				16EE0F5923D963370036365A /* BaseCell.swift in Sources */,
 				169F84CB23C95362003A224D /* MessengerClone.xcdatamodeld in Sources */,
 				16D6A20123D2C1EE0022A4E8 /* CustomTabBarController.swift in Sources */,
 				169F84C123C95362003A224D /* AppDelegate.swift in Sources */,
