@@ -9,18 +9,6 @@
 import UIKit
 import CoreData
 
-//class Message: NSObject {
-//    var text: String?
-//    var date: NSDate?
-//    
-//    var friend: Friend?
-//}
-//
-//class Friend: NSObject {
-//    var name: String?
-//    var imageName: String?
-//}
-
 extension FriendsController {
     
     func clearData() {

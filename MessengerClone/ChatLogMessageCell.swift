@@ -15,6 +15,7 @@ class ChatLogMessageCell: BaseCell {
         textView.text = "Sample Message"
         textView.font = UIFont.systemFont(ofSize: 16)
         textView.backgroundColor = UIColor.clear
+        textView.isEditable = false
         
         return textView
     }()
